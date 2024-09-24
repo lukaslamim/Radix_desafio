@@ -1,5 +1,5 @@
 
-sensorData = [
+sensors = [
 {
 "equipmentId": "EQ-12495",
 "timestamp": "2023-02-15T01:30:00.000-05:00",
