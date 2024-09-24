@@ -1,11 +1,17 @@
 services:
   postgres:
+
     image: postgres
     restart: always
+
     environment:
       POSTGRES_USER: lukas
       POSTGRES_PASSWORD: 741852
       POSTGRES_DB: sensor_database
+
+    ports: 
+      - "5432:5432"
+
     volumes:
-      - ./data:/var/lib/postgresql/data
-      - ./INSTALL:/docker-entrypoint-INITDB.d/
+      - ./data:/var/lib/postgresql/data 
+      - ./INIT.sql:/docker-entrypoint-initdb.d/INIT.sql
