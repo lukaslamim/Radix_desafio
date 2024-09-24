@@ -27,7 +27,7 @@ class sensor(db.Model):
 def listToJson(List):
     return [object.toJson() for object in List]
         
-def createResponde(content):
+def createResponse(content):
     return make_response(
         jsonify(
         content
@@ -37,11 +37,11 @@ def createResponde(content):
 #select all
 @app.route('/sensors', methods = ['GET'])
 def SelectAll():
-    return createResponde(listToJson(sensor.query.all()))
+    return createResponse(listToJson(sensor.query.all()))
 
 #select by id
 @app.route('/sensor/id', methods = ['GET'])
 def SelectById(id):
-    return createResponde(listToJson(sensor.query))
+    return createResponse(listToJson(sensor.query))
 
 app.run()
