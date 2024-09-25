@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados Médios dos Sensores</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .charts-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .chart-container {
+            margin: 20px 10px; /* Ajustar margens */
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            width: 45%; /* Ajustar largura do gráfico */
+        }
+
+        .chart-row {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        button {
+            background-color: #007BFF; /* Azul */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px 5px; /* Espaçamento entre botões */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px; /* Ajustar tamanho da fonte */
+            opacity: 1; /* Remover transparência */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Tom mais escuro de azul */
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .tablink {
+            background-color:  #008000;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin: 0 5px; /* Espaçamento entre as abas */
+            border-radius: 5px;
+        }
+
+        .tablink:hover {
+            background-color: #ddd;
+        }
+
+        .tabcontent {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Média de Leitura dos Sensores</h1>
+        <p>Exibição da média das leituras por sensor para os últimos intervalos de tempo.</p>
+        
+        <div class="button-container">
+            <button id="fetchData">Atualizar Dados</button>
+        </div>
+
+        <!-- Adicionando abas -->
+        <div class="tabs">
+            <button class="tablink" onclick="openTab('general')">Geral</button>
+            <button class="tablink" onclick="openTab('monthly')">Último Mês</button>
+        </div>
+
+        <!-- Conteúdo das abas -->
+        <div id="general" class="tabcontent">
+            <div class="charts-wrapper">
+                <div class="chart-row">
+                    <div class="chart-container">
+                        <h2>Últimas 24 Horas</h2>
+                        <canvas id="chart24h" width="400" height="200"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h2>Últimas 48 Horas</h2>
+                        <canvas id="chart48h" width="400" height="200"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h2>Última Semana</h2>
+                    <canvas id="chart1w" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div id="monthly" class="tabcontent" style="display:none">
+            <div class="chart-container">
+                <h2>Último Mês</h2>
+                <canvas id="chart1m" width="600" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchData();
+            openTab('general'); // Abre a aba 'Geral' por padrão
+        });
+
+        document.getElementById('fetchData').addEventListener('click', function () {
+            fetchData();
+        });
+
+        // Função para alternar entre as abas
+        function openTab(tabName) {
+            const tabContent = document.getElementsByClassName('tabcontent');
+            for (let i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = 'none';
+            }
+            document.getElementById(tabName).style.display = 'block';
+        }
+
+        function fetchData() {
+            fetch('/sensor/data/average')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao buscar dados: ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Dados recebidos:', data); // Log de depuração
+
+                    // Verifica se os dados existem antes de atualizar os gráficos
+                    if (data.last_24_hours && data.last_24_hours.length > 0) {
+                        updateChart('chart24h', data.last_24_hours);
+                    }
+                    if (data.last_48_hours && data.last_48_hours.length > 0) {
+                        updateChart('chart48h', data.last_48_hours);
+                    }
+                    if (data.last_week && data.last_week.length > 0) {
+                        updateChart('chart1w', data.last_week);
+                    }
+                    if (data.last_month && data.last_month.length > 0) {
+                        updateChart('chart1m', data.last_month);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao processar os dados:', error);
+                    alert('Erro ao carregar os dados: ' + error.message);
+                });
+        }
+
+        const ctxs = {
+            'chart24h': document.getElementById('chart24h').getContext('2d'),
+            'chart48h': document.getElementById('chart48h').getContext('2d'),
+            'chart1w': document.getElementById('chart1w').getContext('2d'),
+            'chart1m': document.getElementById('chart1m').getContext('2d')
+        };
+
+        const charts = {};
+
+        // Função para atualizar gráficos de pizza
+        function updateChart(chartId, data) {
+            const labels = data.map(sensor => sensor.equipment_id);  // Usar equipment_id no gráfico
+            const values = data.map(sensor => sensor.average);       // Média de cada sensor
+            const colors = values.map(() => `hsl(${Math.random() * 360}, 100%, 75%)`);  // Cores dinâmicas
+
+            if (charts[chartId]) {
+                charts[chartId].destroy();  // Destruir gráfico antigo antes de criar o novo
+            }
+
+            charts[chartId] = new Chart(ctxs[chartId], {
+                type: 'pie',  // Gráfico de pizza
+                data: {
+                    labels: labels,  // equipmentId na legenda
+                    datasets: [{
+                        label: 'Média dos Sensores',
+                        data: values,
+                        backgroundColor: colors,
+                        borderColor: '#fff',
+                        borderWidth: 2,
+                        hoverBorderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                font: {
+                                    size: 14
+                                },
+                                color: '#333'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return `Sensor ${tooltipItem.label}: Média ${tooltipItem.raw}`;
+                                }
+                            }
+                        }
+                    },
+                    layout: {
+                        padding: {
+                            top: 10,
+                            bottom: 10
+                        }
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

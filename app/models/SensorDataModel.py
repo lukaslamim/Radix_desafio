@@ -1,6 +1,6 @@
 from app.DataBase import db
 
-class Sensor(db.Model):
+class sensor_data(db.Model):
         
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)  
     equipment_id = db.Column(db.String(10), nullable=False)
@@ -10,7 +10,7 @@ class Sensor(db.Model):
     def toJson(self): 
         return {
             "id": self.id,
-            "equipment_id": self.equipment_id,
+            "equipmentId": self.equipment_id,
             "timestamp": self.timestamp.isoformat(),  
             "value": float(self.value)
         }
