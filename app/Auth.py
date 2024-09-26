@@ -1,5 +1,5 @@
 from flask_bcrypt import Bcrypt
-from app.models.UserModel import bcrypt
+from app.models.SensorUserModel import bcrypt
 
 auth = Bcrypt
 

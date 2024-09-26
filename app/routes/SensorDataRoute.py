@@ -51,12 +51,11 @@ def RegisterSensorDataRoutes(app):
     @app.route('/sensor/data/average', methods=['GET'])
     def get_average_sensor_data():
         try:
-            # Obter dados para os últimos 24 horas, 48 horas, 1 semana e 1 mês
             averages = {
-                "last_24_hours": SensorDataService.Average.get_average_for_last_24_hours(),
-                "last_48_hours": SensorDataService.Average.get_average_for_last_48_hours(),
-                "last_week": SensorDataService.Average.get_average_for_last_week(),
-                "last_month": SensorDataService.Average.get_average_for_last_month()
+                "last_24_hours": SensorDataService.Average.getAverage24h(),
+                "last_48_hours": SensorDataService.Average.getAverage48h(),
+                "last_week": SensorDataService.Average.getAverage7d(),
+                "last_month": SensorDataService.Average.getAverage30d()
             }
             return Services.createResponse(averages, 200)
         
@@ -121,8 +120,8 @@ def RegisterSensorDataRoutes(app):
                             return make_response({"Invalid data": "Invalide data value, on line number: " + str(idx + 1) + ' not possible to convert to numeric'}, 400) 
                 
                 try:
-                    sensor = sensor_data(equipment_id=subRows[0], timestamp=subRows[1], value=subRows[2])        
-                    db.session.add(sensor)
+                    sensorData = sensor_data(equipment_id=subRows[0], timestamp=subRows[1], value=subRows[2])        
+                    db.session.add(sensorData)
                     db.session.flush()
                 except Exception as e:
                     return make_response({"Error": f"Unable to add into database: {str(e)}" }, 400)
