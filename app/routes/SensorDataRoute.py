@@ -83,8 +83,8 @@ def RegisterSensorDataRoutes(app):
         
         #validacoes
         for idx, row in enumerate(reader):
-            
-            if idx != 0:
+                
+            if idx != 0 and len(row) != 0:
                 if row.find(';') > 0:
                     subRows = row.split(';')
                 else:
@@ -126,7 +126,7 @@ def RegisterSensorDataRoutes(app):
                 except Exception as e:
                     return make_response({"Error": f"Unable to add into database: {str(e)}" }, 400)
                 
-            else: 
+            elif len(row) != 0: 
                 #valid header
                 if row != 'equipmentId;timestamp;value':
                     return make_response({"Error": "Invalid header, most be: equipmentId;timestamp;value, instead it is: " + row}, 400)

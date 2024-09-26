@@ -34,7 +34,7 @@
             width: 45%; /* Ajustar largura do gráfico */
         }
 
-        .chart-container-week {
+        .chart-container2 {
             margin: 20px 10px; /* Ajustar margens */
             background-color: #fff;
             border-radius: 8px;
@@ -43,15 +43,13 @@
             width: 80%; /* Ajustar largura do gráfico */
         }
 
-        .chart-container-month {
+        .chart-container3 {
             margin: 10px 10px; /* Ajustar margens */
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            justify-content: center;
-            align-items: center;
             padding: 10px;
-            width: 120%; /* Ajustar largura do gráfico */
+            width: 100%; /* Ajustar largura do gráfico */
         }
 
         .chart-row {
@@ -110,7 +108,7 @@
 <body>
     <div class="container">
         <h1>Média de Leitura dos Sensores</h1>
-        <h1>Exibição da média das leituras por sensor.</h1>
+        <h1>Exibição da média das leituras por sensor para os últimos intervalos de tempo.</h1>
         
         <div class="button-container">
             <button id="fetchData">Atualizar Dados</button>
@@ -135,15 +133,15 @@
                         <canvas id="chart48h" width="400" height="200"></canvas>
                     </div>
                 </div>
-                <div class="chart-container-week">
+                <div class="chart-container2">
                     <h2>Última Semana</h2>
                     <canvas id="chart1w" width="400" height="200"></canvas>
                 </div>
             </div>
         </div>
 
-        <div id="monthly" class="tabcontent" style="display:flex">
-            <div class="chart-container-month">
+        <div id="monthly" class="tabcontent" style="display:none">
+            <div class="chart-container3">
                 <h2>Último Mês</h2>
                 <canvas id="chart1m" width="600" height="400"></canvas>
             </div>
@@ -212,7 +210,7 @@
         // Função para atualizar gráficos de pizza
         function updateChart(chartId, data) {
             const labels = data.map(sensor => sensor.equipment_id);  // Usar equipment_id no gráfico
-            const values = data.map(sensor => parseFloat(sensor.average).toFixed(3));       // Média de cada sensor arrendonda
+            const values = data.map(sensor => sensor.average);       // Média de cada sensor
             const colors = values.map(() => `hsl(${Math.random() * 360}, 100%, 75%)`);  // Cores dinâmicas
 
             if (charts[chartId]) {

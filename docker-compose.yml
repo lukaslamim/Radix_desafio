@@ -1,7 +1,6 @@
 services:
   app:
     build:
-    
       context: .
       dockerfile: Dockerfile
 
@@ -19,8 +18,7 @@ services:
       - "5000:5000"
 
     depends_on:
-      - db  
-
+      - db   
   db:
     image: postgres
 
@@ -37,3 +35,5 @@ services:
     volumes:
       - ./data:/var/lib/postgresql/data 
       - ./INIT.sql:/docker-entrypoint-initdb.d/INIT.sql
+
+      
