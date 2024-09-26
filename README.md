@@ -54,5 +54,6 @@ Este projeto foi desenvolvido utilizando Docker Compose, visando coletar e armaz
    ```bash
    git clone https://github.com/seu_usuario/projeto-coleta-dados.git
    docker compose -f "docker-compose.yml" up -d --build
+   http:/localhost:5000/
 
 
