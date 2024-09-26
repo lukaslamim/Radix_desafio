@@ -1,33 +1,30 @@
 services:
 
   app:
-
-    image: python:3.9-slim
-    container_name: flask_app
-
     build:
+    
       context: .
       dockerfile: Dockerfile
+
+    container_name: app
 
     environment:
       - FLASK_APP=app.py
       - FLASK_ENV=development
-      - POSTGRES_USER=lukas
-      - POSTGRES_PASSWORD=741852
-      - POSTGRES_DB=sensor_database
+      - DATABASE_URL=postgresql://lukas:741852@db/sensor_database
 
     volumes:
       - .:/app
 
     ports:
-      - "5000:5000"  
-      
+      - "5000:5000"
+
     depends_on:
       - db  
 
   db:
-
     image: postgres
+
     restart: always
 
     environment:

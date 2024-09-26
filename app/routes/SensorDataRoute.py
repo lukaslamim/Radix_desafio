@@ -5,7 +5,7 @@ from app.services import SensorDataService
 from app.DataBase import db
 import datetime
 
-def register_routes(app):
+def RegisterSensorDataRoutes(app):
 
     #select all data
     @app.route('/sensor/data/all', methods = ['GET'])
@@ -70,21 +70,23 @@ def register_routes(app):
     @app.route('/sensor/data/csv', methods=['POST'])
     def UploadCsv():
         #decode and split data
-        if request.data.decode('utf-8', errors='replace').find(';') >= 0:
-            reader = request.data.decode('utf-8', errors='replace').split(';')
-        else:
-            reader = request.data.decode('utf-8', errors='replace').split(',')
-        if request.data.decode('utf-8', errors='replace').find('\n') >= 0:    
+        if request.data.decode('utf-8', errors='replace').find('\n\r') > 0:    
+            reader = request.data.decode('utf-8', errors='replace').split('\n\r')
+            
+        elif request.data.decode('utf-8', errors='replace').find('\r\n') > 0:       
+            reader = request.data.decode('utf-8', errors='replace').split('\r\n')
+            
+        elif request.data.decode('utf-8', errors='replace').find('\n') > 0:    
             reader = request.data.decode('utf-8', errors='replace').split('\n')
             
-        if request.data.decode('utf-8', errors='replace').find('\r') >= 0:       
+        elif request.data.decode('utf-8', errors='replace').find('\r') > 0:       
             reader = request.data.decode('utf-8', errors='replace').split('\r')
         
         #validacoes
         for idx, row in enumerate(reader):
             
             if idx != 0:
-                if row.find(';') >= 0:
+                if row.find(';') > 0:
                     subRows = row.split(';')
                 else:
                     subRows = row.split(',')
@@ -121,6 +123,7 @@ def register_routes(app):
                 try:
                     sensor = sensor_data(equipment_id=subRows[0], timestamp=subRows[1], value=subRows[2])        
                     db.session.add(sensor)
+                    db.session.flush()
                 except Exception as e:
                     return make_response({"Error": f"Unable to add into database: {str(e)}" }, 400)
                 
@@ -132,6 +135,7 @@ def register_routes(app):
         try:
             db.session.commit()
         except Exception as e:
+            db.session.rollback()
             return make_response({"Error": f"Unable to finish request: {str(e)}" }, 400)
         
         return make_response({"Message": "all Data inserted successfully."}, 201) 
