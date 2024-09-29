@@ -61,10 +61,6 @@ def RegisterSensorDataRoutes(app):
         
         except Exception as e:
             return make_response({'Error': 'Erro ao tentar obter dados ' + str(e)}, 500)
-
-    #to do
-    #UpdateData
-    #DeleteData
     
     @app.route('/sensor/data/csv', methods=['POST'])
     def UploadCsv():

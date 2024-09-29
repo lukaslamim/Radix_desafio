@@ -20,9 +20,6 @@ for _ in range(num_rows):
     value = round(random.uniform(20, 40), 2)
     data.append([equipment_id, timestamp, value])
 
-# Excluindo a última linha
-data = data[:-1]
-
 # Gravação do arquivo CSV
 with open('equipment_data.csv', 'w', newline='', encoding='utf-8') as csvfile:
     csvwriter = csv.writer(csvfile, delimiter=';')

@@ -26,30 +26,30 @@
         }
 
         .chart-container {
-            margin: 20px 10px; /* Ajustar margens */
+            margin: 20px 10px; 
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             padding: 10px;
-            width: 45%; /* Ajustar largura do gráfico */
+            width: 45%; 
         }
 
         .chart-container2 {
-            margin: 20px 10px; /* Ajustar margens */
+            margin: 20px 10px; 
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             padding: 10px;
-            width: 80%; /* Ajustar largura do gráfico */
+            width: 80%;
         }
 
         .chart-container3 {
-            margin: 10px 10px; /* Ajustar margens */
+            margin: 10px 10px; 
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             padding: 10px;
-            width: 100%; /* Ajustar largura do gráfico */
+            width: 100%; 
         }
 
         .chart-row {
@@ -59,20 +59,20 @@
         }
 
         button {
-            background-color: #007BFF; /* Azul */
+            background-color: #007BFF;
             color: white;
             border: none;
             padding: 10px 20px;
-            margin: 10px 5px; /* Espaçamento entre botões */
+            margin: 10px 5px; 
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
-            font-size: 16px; /* Ajustar tamanho da fonte */
-            opacity: 1; /* Remover transparência */
+            font-size: 16px; 
+            opacity: 1; 
         }
 
         button:hover {
-            background-color: #0056b3; /* Tom mais escuro de azul */
+            background-color: #0056b3; 
         }
 
         .button-container {
@@ -92,7 +92,7 @@
             border: none;
             padding: 10px 15px;
             cursor: pointer;
-            margin: 0 5px; /* Espaçamento entre as abas */
+            margin: 0 5px;
             border-radius: 5px;
         }
 
@@ -114,13 +114,11 @@
             <button id="fetchData">Atualizar Dados</button>
         </div>
 
-        <!-- Adicionando abas -->
         <div class="tabs">
             <button class="tablink" onclick="openTab('general')">Geral</button>
             <button class="tablink" onclick="openTab('monthly')">Último Mês</button>
         </div>
 
-        <!-- Conteúdo das abas -->
         <div id="general" class="tabcontent">
             <div class="charts-wrapper">
                 <div class="chart-row">
@@ -176,7 +174,7 @@
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Dados recebidos:', data); // Log de depuração
+                    console.log('Dados recebidos:', data);
 
                     // Verifica se os dados existem antes de atualizar os gráficos
                     if (data.last_24_hours && data.last_24_hours.length > 0) {
@@ -207,20 +205,20 @@
 
         const charts = {};
 
-        // Função para atualizar gráficos de pizza
+        // Função para atualizar graficos
         function updateChart(chartId, data) {
-            const labels = data.map(sensor => sensor.equipment_id);  // Usar equipment_id no gráfico
-            const values = data.map(sensor => sensor.average);       // Média de cada sensor
-            const colors = values.map(() => `hsl(${Math.random() * 360}, 100%, 75%)`);  // Cores dinâmicas
+            const labels = data.map(sensor => sensor.equipment_id); 
+            const values = data.map(sensor => sensor.average);      
+            const colors = values.map(() => `hsl(${Math.random() * 360}, 100%, 75%)`);  
 
             if (charts[chartId]) {
-                charts[chartId].destroy();  // Destruir gráfico antigo antes de criar o novo
+                charts[chartId].destroy(); 
             }
 
             charts[chartId] = new Chart(ctxs[chartId], {
-                type: 'pie',  // Gráfico de pizza
+                type: 'pie', 
                 data: {
-                    labels: labels,  // equipmentId na legenda
+                    labels: labels,  
                     datasets: [{
                         label: 'Média dos Sensores',
                         data: values,

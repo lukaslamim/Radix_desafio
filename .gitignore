@@ -6,3 +6,4 @@
 /.idea
 /.vscode
 
+/app/models/__pycache__
