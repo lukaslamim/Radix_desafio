@@ -7,7 +7,7 @@ Este projeto foi desenvolvido utilizando Docker Compose, em python com flask, vi
 
 ## Requisitos
 -- se estiver usando o windows, deve ter o wls instalado:
-https://learn.microsoft.com/pt-br/windows/wsl/install
+-- https://learn.microsoft.com/pt-br/windows/wsl/install
 
 ## Estrutura do Projeto
 
@@ -55,10 +55,10 @@ https://learn.microsoft.com/pt-br/windows/wsl/install
 ## Como Executar o Projeto
 
    **Clone do Repositório e Execução do app**:
-   ```bash
-   git clone https:[//github.com/seu_usuario/projeto-coleta-dados.git](https://github.com/lukaslamim/Radix_desafio)
-   docker compose -f "docker-compose.yml" up -d --build 
-   http:/localhost:5000/
+   
+  -- git clone https://github.com/lukaslamim/Radix_desafio
+  -- docker compose -f "docker-compose.yml" up -d --build 
+  -- http:/localhost:5000/
 
 
 
