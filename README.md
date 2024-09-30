@@ -54,9 +54,9 @@ https://learn.microsoft.com/pt-br/windows/wsl/install
 
 ## Como Executar o Projeto
 
-   **Clone o Repositório e Execução do app**:
+   **Clone do Repositório e Execução do app**:
    ```bash
-   git clone https://github.com/seu_usuario/projeto-coleta-dados.git
+   git clone https:[//github.com/seu_usuario/projeto-coleta-dados.git](https://github.com/lukaslamim/Radix_desafio)
    docker compose -f "docker-compose.yml" up -d --build 
    http:/localhost:5000/
 
