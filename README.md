@@ -50,7 +50,7 @@ Este projeto foi desenvolvido utilizando Docker Compose, em python com flask, vi
 - **Python**: Backend para criação da API.
 - **PostgreSQL**: Banco de dados para armazenamento dos dados coletados.
 - **Chart.js**: Biblioteca para gráficos na interface.
-- **HTML**: Biblioteca para gráficos na interface.
+- **HTML**: Linguagem de marcação.
 
 ## Como Executar o Projeto
 
