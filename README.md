@@ -5,6 +5,10 @@ Desafio de código da radix-engenharia
 
 Este projeto foi desenvolvido utilizando Docker Compose, em python com flask, visando coletar e armazenar dados de equipamentos que enviam informações em formato JSON para um endpoint. Além disso, o projeto permite o upload de arquivos CSV para preencher lacunas nos dados coletados.
 
+## Requisitos
+-- se estiver usando o windows, deve ter o wls instalado:
+https://learn.microsoft.com/pt-br/windows/wsl/install
+
 ## Estrutura do Projeto
 
 - **API**: Endpoint para receber dados em tempo real e processar arquivos CSV.
@@ -28,9 +32,9 @@ Este projeto foi desenvolvido utilizando Docker Compose, em python com flask, vi
    - Endpoint para upload de arquivos CSV com dados de sensores.
    - O formato do CSV deve seguir a estrutura:
      ```
-     equipmentId,timestamp,value
-     EQ-12495,2023-02-12T01:30:00.000-05:00,78.8
-     EQ-12492,2023-01-12T01:30:00.000-05:00,8.8
+     equipmentId;timestamp;value
+     EQ-12495;2023-02-12T01:30:00.000-05:00;78.8
+     EQ-12492;2023-01-12T01:30:00.000-05:00;8.8
      ```
 
 3. **Média dos Sensores**:
@@ -50,10 +54,11 @@ Este projeto foi desenvolvido utilizando Docker Compose, em python com flask, vi
 
 ## Como Executar o Projeto
 
-1. **Clone o Repositório**:
+   **Clone o Repositório e Execução do app**:
    ```bash
    git clone https://github.com/seu_usuario/projeto-coleta-dados.git
-   docker compose -f "docker-compose.yml" up -d --build
+   docker compose -f "docker-compose.yml" up -d --build 
    http:/localhost:5000/
+
 
 
