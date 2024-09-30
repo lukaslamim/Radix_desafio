@@ -54,11 +54,13 @@ Este projeto foi desenvolvido utilizando Docker Compose, em python com flask, vi
 
 ## Como Executar o Projeto
 
-   **Clone do Repositório e Execução do app**:
+**Clone do Repositório e Execução do app**:
    
-  -- git clone https://github.com/lukaslamim/Radix_desafio
-  -- docker compose -f "docker-compose.yml" up -d --build 
-  -- http:/localhost:5000/
+git clone https://github.com/lukaslamim/Radix_desafio
+
+docker compose -f "docker-compose.yml" up -d --build 
+
+http:/localhost:5000/
 
 
 
