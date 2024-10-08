@@ -65,10 +65,8 @@ def RegisterSensorDataRoutes(app):
     @app.route('/sensor/data/csv', methods=['POST'])
     def UploadCsv():
         #valid file
-        file = request.files['file']
-
-        if not file:
-            return make_response({"Error":"No file"}), 400
+        if request.content_type != 'text/csv':
+            return make_response({"Error":"invalid or no file"}), 400
         
         #decode and split data
         if request.data.decode('utf-8', errors='replace').find('\n\r') > 0:    

@@ -1,10 +1,12 @@
-
 /.venv
 /__pycache__
 /data
 /venv
 /.idea
 /.vscode
-
 /app/models/__pycache__
 /app/routes/__pycache__
+/app/services/__pycache__
+/app/__pycache__
+/app/templates/__pycache__
+/app/tests/__pycache__
