@@ -1,6 +1,3 @@
-# Radix_desafio
-Desafio de código da radix-engenharia
-
 # Projeto de Coleta de Dados em Tempo Real
 
 Este projeto foi desenvolvido utilizando Docker Compose, em python com flask, visando coletar e armazenar dados de equipamentos que enviam informações em formato JSON para um endpoint. Além disso, o projeto permite o upload de arquivos CSV para preencher lacunas nos dados coletados.
